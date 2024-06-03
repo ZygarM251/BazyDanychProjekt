@@ -39,34 +39,38 @@
 	</div>
 	<div id="formularz">
 	<form action="" method="post">
-        Login: <input type="text" name="user_login"><br>
+        Login: <input type="text" name="user_email"><br>
         Hasło: <input type="password" name="user_pass"><br><br>
         <input type="submit" name="" value="Zaloguj">
     </form><br><br><br><br>
 	</div>
 	<?php
 require('connect.php');
-if( isset($_POST['user_login']) )
+if( isset($_POST['user_email']) && isset($_POST['user_pass']) )
 {
-	$l = $_POST['user_login'];
-	$p = $_POST['user_pass'];
-	$p = hash('sha256', $p);
-	$query = "select * from users where user_login='{$l}' and user_pass='{$p}'";
-	$result = mysqli_query($connection, $query);
+	$email = $_POST['user_email'];
+	$pass = $_POST['user_pass'];
+	$query="SELECT uzytkownicy.haslo from osoby join uzytkownicy on osoby.id=uzytkownicy.id WHERE osoby.mail like '{$email}'";
+	$result = mysqli_query($connection, $query); 
 	session_start();
 	if($result)
 	{
-		while($row = mysqli_fetch_assoc($result))
+		$row = mysqli_fetch_assoc($result);
+		
+		/*if($row['haslo']==$pass)
 		{
-			$_SESSION['user_log']=$row['user_login'];
-			$_SESSION['user_id']=$row['user_id'];
+		echo "Zalogowano, Witamy {$_SESSION['user_name']}";
 		}
-		echo "Zalogowano, Witamy {$_SESSION['user_log']}";
-		$u = mysqli_num_rows($result);
+		else
+		{*/
+			echo $row["haslo"];
+			echo $pass;
+			echo "Błędne hasło";
+		//}
 	}
 	else
 	{
-		echo "Spróbuj jeszcze raz";
+		echo "Nie ma takiego użytkownika";
 	}
 }
 ?>

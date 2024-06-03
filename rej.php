@@ -40,40 +40,53 @@
 </div>
 <div id="formularz">
 <form action="" method="post">
+		Nazwisko: <input type="text" name="user_surname"><br>
 		Imie: <input type="text" name="user_name"><br>
-        Login: <input type="text" name="user_login"><br>
+		Hasło: <input type="password" name="user_pass"><br>
 		E-mail: <input type="text" name="user_email"><br>
-		Nr. tel <input type="number" name="user_phone"><br>
-        Hasło: <input type="password" name="user_pass"><br><br>
+		Data Urodzenia: <input type="date" name="user_birth_day">
+		Klauzula Rodo: <input type="radio" name="user_rodo"><br>
         <input type="submit" name="" value="Zarejestruj">
     </form>
 	</div>
 	<?php
     require('connect.php');
- if(isset($_POST['user_name']))
+ if(isset($_POST['user_surname']))
  {
-     $t = $_POST['user_name'];
-     $t = htmlentities($t);
-    if(isset($_POST['user_login']))
+     $surname = $_POST['user_surname'];
+     $surname = htmlentities($surname);
+
+    if(isset($_POST['user_name']))
     {
-        $n = $_POST['user_login'];
-        $n = htmlentities($n);
+        $imie = $_POST['user_name'];
+        $imie = htmlentities($imie);
        if(isset($_POST['user_pass']))
        {
-           $x = $_POST['user_pass'];
-           $x = htmlentities($x);
-		   $x = hash('sha256', $x);
+           $haslo = $_POST['user_pass'];
+           $haslo = htmlentities($haslo);
 		   if(isset($_POST['user_email']))
 		   {
-			   $j = $_POST['user_email'];
-			   $j = htmlentities($j);
-           	 	if(isset($_POST['user_phone']))
+			   $mail = $_POST['user_email'];
+			   $mail= htmlentities($mail);
+           	 	if(isset($_POST['user_birth_day']))
               	{
-                	$z = $_POST['user_phone'];
-                	$z = htmlentities($z);
-                $q = "insert into users values('','{$t}','{$n}','{$j}','{$z}','{$x}')";
-                $r = mysqli_query($connection, $q); 
+                	$dataUr = $_POST['user_birth_day'];
+                	$dataUr = htmlentities($dataUr);
             	}
+				if(isset($_POST['user_rodo']))
+				{
+					$rodo= $_POST['user_rodo'];
+			   		$rodo = htmlentities($rodo);
+
+					   $queryOsoby = "insert into osoby values('','{$surname}','{$imie}','{$mail}','{$dataUr}','{$rodo}')";
+					   $bazaOsoby = mysqli_query($connection, $queryOsoby); 
+
+					   $idOsoby = "select id from osoby where mail like '{$mail}'";
+					   $idOsobyWynik = mysqli_query($connection, $idOsoby); 
+					   $rzutowanie = mysqli_fetch_assoc($idOsobyWynik);
+					   $queryUzytkownicy = "insert into uzytkownicy values('','{$rzutowanie['id']}', '{$haslo}','{1}')";
+					   $bazaUzytkownicy= mysqli_query($connection, $queryUzytkownicy); 
+				}
             }
         }
     }
