@@ -1,0 +1,116 @@
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+#header
+{
+  background: url('ITAS7.jpg') ;
+  width: 100%;
+  transition:.4s ;
+}	
+#header:hover
+{
+	background-position: 0PX -100px;
+	transition-duration: .5s;
+}
+a
+{
+    list-style-type:none;
+    text-decoration: none;
+    color: red;
+}
+#menu
+{
+    width: 1000px;
+    margin: auto;
+    color: white;
+    font-family: 'century gothic';
+    border-bottom: 1px solid white;
+}
+#menu-left
+{
+    font-size:30px;
+    display: inline-block;
+    width: 39%;
+    background: transparent;
+    padding-top: 30px;
+}
+#menu-right
+{
+    background: transparent;
+    display: inline-block;
+    width: 55%;
+    text-align: right;
+    text-transform: uppercase;
+}
+#menu-banner
+{
+    padding-top: 120px;
+    width: 1100px;
+    margin: auto;
+    color: white;
+    padding-bottom: 20px;
+}
+#menu-right ul li
+{
+    display: inline-block;
+    list-style: none;
+    width: 90px;
+    height: 40px;
+    font-size: 15px;
+    text-align: center;
+    padding-top: 15px;
+    background-color: rgba(255,255,255,0);
+    transition-duration: .3s;
+}
+#menu-right ul li:hover
+{
+    background-color: rgba(255,255,255,0.3);
+    transition-duration: .3s;
+}
+.button
+{
+	width: 230px;
+	height: 25px;
+	color: white;
+	background-color: red;
+	margin: 30px 0px 70px 0px;
+	padding: 13px 0px 10px 13px;
+	font-size: 18px;
+	transition-duration: .3s;
+}
+.button:hover
+{
+	background-color: rgba(122, 122, 122, 0.7);
+	transition-duration: .3s;
+}
+#message
+{
+	margin-top: 70px;
+	font-size: 30px;
+}
+#formularz
+{
+	margin-top: 50px;
+	margin-left: 820px;
+	place-content:initial ;
+	width: 250px;
+	height: auto;
+	border: black solid 2px;
+	text-align: center;
+}
+#footer
+{
+    bottom:0;
+    width:100%;
+    height:60px;
+    text-align: center;
+    background-color: black;
+    color: red;
+    left: 0;
+    margin-top: 30px;
+    padding-top: 40px;
+}
