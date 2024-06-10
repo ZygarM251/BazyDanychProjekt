@@ -50,28 +50,35 @@ if( isset($_POST['user_email']) && isset($_POST['user_pass']) )
 {
 	$email = $_POST['user_email'];
 	$pass = $_POST['user_pass'];
-	$query="SELECT uzytkownicy.haslo from osoby join uzytkownicy on osoby.id=uzytkownicy.id WHERE osoby.mail like '{$email}'";
-	$result = mysqli_query($connection, $query); 
-	session_start();
-	if($result)
+	$query="SELECT osoby.imie, uzytkownicy.haslo from osoby join uzytkownicy on osoby.id=uzytkownicy.id WHERE osoby.mail like '{$email}'";
+	
+	if(empty($pass) && empty($email))
 	{
-		$row = mysqli_fetch_assoc($result);
-		
-		/*if($row['haslo']==$pass)
-		{
-		echo "Zalogowano, Witamy {$_SESSION['user_name']}";
-		}
-		else
-		{*/
-			echo $row["haslo"];
-			echo $pass;
-			echo "Błędne hasło";
-		//}
+		echo "Nie podano hasło";
 	}
 	else
 	{
-		echo "Nie ma takiego użytkownika";
+		$result = mysqli_query($connection, $query); 
+		session_start();
+		$zaszyfrowanieHaslo=hash('sha256',$pass);
+
+		if($result)
+		{
+			$row = mysqli_fetch_assoc($result);
+			if($row['haslo']==$zaszyfrowanieHaslo)
+			{
+				$_SESSION['imie'] = $row['imie'];
+				echo "Zalogowano, Witamy {$_SESSION['imie']}";
+			}
+			else
+			{
+				echo "Podano Błędne hasło lub login";
+			}
+			$result = 0;
+		}
+
 	}
+
 }
 ?>
 <div id="footer">
