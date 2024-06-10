@@ -72,6 +72,7 @@
 			<li><a href="rej.php">Rejestracja</a></li>		
 			</div>
 		</div>
+
 <div id="footer">
 Wszelkie prawa zastrzeżone - &copy; 2024
 </div>
