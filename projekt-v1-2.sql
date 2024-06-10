@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 10, 2024 at 06:17 PM
+-- Generation Time: Cze 10, 2024 at 06:38 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -31,6 +31,29 @@ CREATE TABLE `kolory` (
   `id` int(11) NOT NULL,
   `nazwa_koloru` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kolory`
+--
+
+INSERT INTO `kolory` (`id`, `nazwa_koloru`) VALUES
+(1, 'Beżowy'),
+(2, 'Biały'),
+(3, 'Błękitny'),
+(4, 'Bordowy'),
+(5, 'Brązowy'),
+(6, 'Czarny'),
+(7, 'Czerwony'),
+(8, 'Fioletowy'),
+(9, 'Granatowy'),
+(10, 'Niebieski'),
+(11, 'Pomarańczowy'),
+(12, 'Srebrny'),
+(13, 'Szary'),
+(14, 'Zielony'),
+(15, 'Złoty'),
+(16, 'Żółty'),
+(17, 'Inny');
 
 -- --------------------------------------------------------
 
@@ -170,6 +193,15 @@ CREATE TABLE `rodzaje_paliwa` (
   `nazwa_paliwa` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `rodzaje_paliwa`
+--
+
+INSERT INTO `rodzaje_paliwa` (`id`, `nazwa_paliwa`) VALUES
+(1, 'Benzyna'),
+(2, 'Benzyna+LPG'),
+(3, 'Diesel');
+
 -- --------------------------------------------------------
 
 --
@@ -180,6 +212,15 @@ CREATE TABLE `rodzaje_skrzyni_biegow` (
   `id` int(11) NOT NULL,
   `nazwa_typu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rodzaje_skrzyni_biegow`
+--
+
+INSERT INTO `rodzaje_skrzyni_biegow` (`id`, `nazwa_typu`) VALUES
+(1, 'Manualna'),
+(2, 'Automatyczna'),
+(3, 'Sekwencyjna');
 
 -- --------------------------------------------------------
 
@@ -192,6 +233,14 @@ CREATE TABLE `role` (
   `nazwa_roli` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`id`, `nazwa_roli`) VALUES
+(1, 'użytkownik'),
+(2, 'administrator');
+
 -- --------------------------------------------------------
 
 --
@@ -202,6 +251,14 @@ CREATE TABLE `statusy` (
   `id` int(11) NOT NULL,
   `nazwa_statusu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `statusy`
+--
+
+INSERT INTO `statusy` (`id`, `nazwa_statusu`) VALUES
+(1, 'Aktywne'),
+(2, 'Nieaktywne');
 
 -- --------------------------------------------------------
 
@@ -288,7 +345,7 @@ ALTER TABLE `uzytkownicy`
 -- AUTO_INCREMENT for table `kolory`
 --
 ALTER TABLE `kolory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `marki`
@@ -318,25 +375,25 @@ ALTER TABLE `osoby`
 -- AUTO_INCREMENT for table `rodzaje_paliwa`
 --
 ALTER TABLE `rodzaje_paliwa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `rodzaje_skrzyni_biegow`
 --
 ALTER TABLE `rodzaje_skrzyni_biegow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `statusy`
 --
 ALTER TABLE `statusy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `uzytkownicy`
