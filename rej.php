@@ -64,6 +64,7 @@
        {
            $haslo = $_POST['user_pass'];
            $haslo = htmlentities($haslo);
+		   $zaszyfrowaneHaslo = hash('sha256',$haslo);
 		   if(isset($_POST['user_email']))
 		   {
 			   $mail = $_POST['user_email'];
@@ -84,7 +85,7 @@
 					   $idOsoby = "select id from osoby where mail like '{$mail}'";
 					   $idOsobyWynik = mysqli_query($connection, $idOsoby); 
 					   $rzutowanie = mysqli_fetch_assoc($idOsobyWynik);
-					   $queryUzytkownicy = "insert into uzytkownicy values('','{$rzutowanie['id']}', '{$haslo}','{1}')";
+					   $queryUzytkownicy = "insert into uzytkownicy values('','{$rzutowanie['id']}', '{$zaszyfrowaneHaslo}','{1}')";
 					   $bazaUzytkownicy= mysqli_query($connection, $queryUzytkownicy); 
 				}
             }

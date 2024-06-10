@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 10, 2024 at 06:38 PM
+-- Generation Time: Cze 03, 2024 at 10:21 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -32,29 +32,6 @@ CREATE TABLE `kolory` (
   `nazwa_koloru` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `kolory`
---
-
-INSERT INTO `kolory` (`id`, `nazwa_koloru`) VALUES
-(1, 'Beżowy'),
-(2, 'Biały'),
-(3, 'Błękitny'),
-(4, 'Bordowy'),
-(5, 'Brązowy'),
-(6, 'Czarny'),
-(7, 'Czerwony'),
-(8, 'Fioletowy'),
-(9, 'Granatowy'),
-(10, 'Niebieski'),
-(11, 'Pomarańczowy'),
-(12, 'Srebrny'),
-(13, 'Szary'),
-(14, 'Zielony'),
-(15, 'Złoty'),
-(16, 'Żółty'),
-(17, 'Inny');
-
 -- --------------------------------------------------------
 
 --
@@ -65,30 +42,6 @@ CREATE TABLE `marki` (
   `id` int(11) NOT NULL,
   `nazwa_marki` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `marki`
---
-
-INSERT INTO `marki` (`id`, `nazwa_marki`) VALUES
-(1, 'Audi'),
-(2, 'BMW'),
-(3, 'Citroen'),
-(4, 'Dacia'),
-(5, 'Fiat'),
-(6, 'Ford'),
-(7, 'Hyundai'),
-(8, 'Kia'),
-(9, 'Mercedes'),
-(10, 'Nissan'),
-(11, 'Opel'),
-(12, 'Peugeot'),
-(13, 'Renault'),
-(14, 'SEAT'),
-(15, 'Skoda'),
-(16, 'Toyota'),
-(17, 'Volkswagen'),
-(18, 'Volvo');
 
 -- --------------------------------------------------------
 
@@ -101,48 +54,6 @@ CREATE TABLE `modele` (
   `nazwa_modelu` varchar(25) NOT NULL,
   `id_marki` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `modele`
---
-
-INSERT INTO `modele` (`id`, `nazwa_modelu`, `id_marki`) VALUES
-(1, 'A4', 1),
-(2, 'A8', 1),
-(3, 'X5', 2),
-(4, 'M4', 2),
-(5, 'C4', 3),
-(6, 'Saxo', 3),
-(7, 'Logan', 4),
-(8, 'Sandero', 4),
-(9, 'Punto', 5),
-(10, 'Tipo', 5),
-(11, 'Mondeo', 6),
-(12, 'Focus', 6),
-(13, 'i20', 7),
-(14, 'Genesis', 7),
-(15, 'Ceed', 8),
-(16, 'Picanto', 8),
-(17, 'Klasa C', 9),
-(18, 'W201', 9),
-(19, '240SX', 10),
-(20, 'GT-R', 10),
-(21, 'Corsa', 11),
-(22, 'Insignia', 11),
-(23, '206', 12),
-(24, '307', 12),
-(25, 'Laguna', 13),
-(26, 'Thalia', 13),
-(27, 'Ibiza', 14),
-(28, 'Leon', 14),
-(29, 'Superb', 15),
-(30, 'Octavia', 15),
-(31, 'Supra', 16),
-(32, 'GT86', 16),
-(33, 'Bora', 17),
-(34, 'Golf', 17),
-(35, 'V90', 18),
-(36, '242', 18);
 
 -- --------------------------------------------------------
 
@@ -177,9 +88,9 @@ CREATE TABLE `osoby` (
   `id` int(11) NOT NULL,
   `nazwisko` varchar(25) NOT NULL,
   `imie` varchar(25) NOT NULL,
-  `mail` varchar(50) NOT NULL,
+  `mail` varchar(35) NOT NULL,
   `data_urodzenia` date NOT NULL,
-  `rodo` tinyint(4) NOT NULL
+  `rodo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -193,15 +104,6 @@ CREATE TABLE `rodzaje_paliwa` (
   `nazwa_paliwa` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `rodzaje_paliwa`
---
-
-INSERT INTO `rodzaje_paliwa` (`id`, `nazwa_paliwa`) VALUES
-(1, 'Benzyna'),
-(2, 'Benzyna+LPG'),
-(3, 'Diesel');
-
 -- --------------------------------------------------------
 
 --
@@ -212,15 +114,6 @@ CREATE TABLE `rodzaje_skrzyni_biegow` (
   `id` int(11) NOT NULL,
   `nazwa_typu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `rodzaje_skrzyni_biegow`
---
-
-INSERT INTO `rodzaje_skrzyni_biegow` (`id`, `nazwa_typu`) VALUES
-(1, 'Manualna'),
-(2, 'Automatyczna'),
-(3, 'Sekwencyjna');
 
 -- --------------------------------------------------------
 
@@ -233,14 +126,6 @@ CREATE TABLE `role` (
   `nazwa_roli` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `role`
---
-
-INSERT INTO `role` (`id`, `nazwa_roli`) VALUES
-(1, 'użytkownik'),
-(2, 'administrator');
-
 -- --------------------------------------------------------
 
 --
@@ -252,14 +137,6 @@ CREATE TABLE `statusy` (
   `nazwa_statusu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `statusy`
---
-
-INSERT INTO `statusy` (`id`, `nazwa_statusu`) VALUES
-(1, 'Aktywne'),
-(2, 'Nieaktywne');
-
 -- --------------------------------------------------------
 
 --
@@ -269,7 +146,7 @@ INSERT INTO `statusy` (`id`, `nazwa_statusu`) VALUES
 CREATE TABLE `uzytkownicy` (
   `id` int(11) NOT NULL,
   `id_osoby` int(11) NOT NULL,
-  `haslo` text NOT NULL,
+  `haslo` varchar(25) NOT NULL,
   `id_role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -345,19 +222,19 @@ ALTER TABLE `uzytkownicy`
 -- AUTO_INCREMENT for table `kolory`
 --
 ALTER TABLE `kolory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `marki`
 --
 ALTER TABLE `marki`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `modele`
 --
 ALTER TABLE `modele`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ogloszenia`
@@ -375,25 +252,25 @@ ALTER TABLE `osoby`
 -- AUTO_INCREMENT for table `rodzaje_paliwa`
 --
 ALTER TABLE `rodzaje_paliwa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rodzaje_skrzyni_biegow`
 --
 ALTER TABLE `rodzaje_skrzyni_biegow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `statusy`
 --
 ALTER TABLE `statusy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `uzytkownicy`
