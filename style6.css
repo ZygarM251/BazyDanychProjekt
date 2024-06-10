@@ -94,9 +94,9 @@ a
 }
 #formularz{
 	margin-top: 50px;
-	margin-left: 820px;
+	margin-left: 750px;
 	place-content:initial ;
-	width: 250px;
+	width: 400px;
 	height: auto;
 	border: black solid 2px;
 	text-align: center;

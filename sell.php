@@ -36,25 +36,92 @@
 </div>
 <div id="formularz">
 <form action="" method="post">
-		Marka: <input type="text" name="car_name"><br>
-        Model: <input type="text" name="car_model"><br>
-		Rocznik: <input type="number" name="car_year"><br>
-		Przebieg <input type="number" name="car_run"><br>
-        Pojemność(cm³): <input type="number" name="car_engine"><br>
-		Skrzynia Biegów: <input type="text" name="car_gear"><br>
-		Moc: <input type="number" name="car_horsepower"><br>
-		Kolor: <input type="text" name="car_color"><br>
-		Zdjęcie: <input type="text" name="car_img"><br>
-		Cena: <input type="number" name="car_price"><br>
-        <input type="submit" name="" value="Dodaj">
+    Marka:
+    <?php
+    require('connect.php');
+    $query = mysqli_query($connection, "SELECT * FROM marki ORDER BY id ASC");
+
+    if (!$query) {
+        die("Query failed: " . mysqli_error($connection));
+    }
+
+    echo '<select name="car_brand">';
+    echo '<option value="">-</option>';
+    while ($option = mysqli_fetch_assoc($query)) {
+        $selected = (isset($_POST['car_brand']) && $_POST['car_brand'] == $option['id']) ? ' selected' : '';
+        echo '<option value="'.$option['id'].'"'.$selected.'>'.$option['nazwa_marki'].'</option>';
+    }
+    echo '</select><br>';
+	
+	echo 'Marka:';
+    if (isset($_POST['car_brand']) && !empty($_POST['car_brand'])) {
+        $selected_brand_id = $_POST['car_brand'];
+        $query = mysqli_query($connection, "SELECT * FROM modele WHERE id_marki = '$selected_brand_id' ORDER BY id ASC");
+
+        if (!$query) {
+            die("Query failed: " . mysqli_error($connection));
+        }
+
+        echo '<select name="car_model">';
+        echo '<option value="">Wybierz model</option>';
+        while ($option = mysqli_fetch_assoc($query)) {
+            $selected_model = (isset($_POST['car_model']) && $_POST['car_model'] == $option['id']) ? ' selected' : '';
+            echo '<option value="'.$option['id'].'"'.$selected_model.'>'.$option['nazwa_modelu'].'</option>';
+        }
+        echo '</select>';
+    } else {
+        echo '<select name="car_model">';
+        echo '<option value="">Wybierz markę najpierw</option>';
+        echo '</select>';
+    }
+    ?>
+    <br>
+	Przebieg: <input type="number" name="car_run"><br>
+    Rocznik: <input type="number" name="car_year"><br>
+    Pojemność(cm³): <input type="number" name="car_engine"><br>
+	Moc: <input type="number" name="car_horsepower"><br>
+    Skrzynia Biegów: 
+	<?php
+    $query_gear = mysqli_query($connection, "SELECT * FROM rodzaje_skrzyni_biegow ORDER BY id ASC");
+
+    if (!$query_gear) {
+        die("Query failed: " . mysqli_error($connection));
+    }
+
+    echo '<select name="car_gear">';
+    echo '<option value="">-</option>';
+    while ($option_gear = mysqli_fetch_assoc($query_gear)) {
+        echo '<option value="'.$option_gear['id'].'">'.$option_gear['nazwa_typu'].'</option>';
+    }
+    echo '</select>';
+    ?><br>
+	Rodzaj paliwa:
+    <?php
+    $query_fuel = mysqli_query($connection, "SELECT * FROM rodzaje_paliwa ORDER BY id ASC");
+
+    if (!$query_fuel) {
+        die("Query failed: " . mysqli_error($connection));
+    }
+
+    echo '<select name="car_fuel">';
+    echo '<option value="">-</option>';
+    while ($option_fuel = mysqli_fetch_assoc($query_fuel)) {
+        echo '<option value="'.$option_fuel['id'].'">'.$option_fuel['nazwa_paliwa'].'</option>';
+    }
+    echo '</select>';
+    ?><br>
+    Kolor: <input type="text" name="car_color"><br>
+    Zdjęcie: <input type="text" name="car_img"><br>
+    Cena: <input type="number" name="car_price"><br><br>
+    <input type="submit" name="submit_car" value="Dodaj">
 </form>
 </div>
 <?php
 session_start();
 
-if(isset($_SESSION['user_log'])){
+if(isset($_SESSION['imie'])){
 
-	$login=$_SESSION['user_log'];
+	$login=$_SESSION['imie'];
 
     require('connect.php');
  if(isset($_POST['car_name']))
