@@ -6,6 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moto-oto Ogłoszenia</title>
     <link rel="stylesheet" href="style6.css">
+    <script>
+        function updateModels(brandId) {
+            var carModelSelect = document.getElementById("car_model");
+
+            carModelSelect.innerHTML = '<option value="">Wybierz model</option>';
+
+           
+            if (brandId !== "") {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                
+                        console.log("Odpowiedź z serwera: " + this.responseText); 
+                        var models;
+                        try {
+                            models = JSON.parse(this.responseText);
+                        } catch (e) {
+                            console.error("Błąd parsowania JSON: " + e);
+                            return;
+                        }
+
+                        models.forEach(function(model) {
+                            var option = document.createElement("option");
+                            option.text = model.nazwa_modelu;
+                            option.value = model.id;
+                            carModelSelect.appendChild(option);
+                        });
+                    }
+                };
+                xmlhttp.open("GET", "get_models.php?brand_id=" + brandId, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
 </head>
 <body>
 <div id="header">
@@ -35,25 +69,25 @@
 			</div>
 </div>
 <div id="formularz">
-<form action="" method="post">
-    Marka:
-    <?php
-    require('connect.php');
-    $query = mysqli_query($connection, "SELECT * FROM marki ORDER BY id ASC");
+    <form action="" method="post" id="carForm">
+        Marka:
+        <?php
+        require('connect.php');
+        $query = mysqli_query($connection, "SELECT * FROM marki ORDER BY id ASC");
 
-    if (!$query) {
-        die("Query failed: " . mysqli_error($connection));
-    }
+        if (!$query) {
+            die("Query failed: " . mysqli_error($connection));
+        }
 
-    echo '<select name="car_brand">';
-    echo '<option value="">-</option>';
+        echo '<select name="car_brand" onchange="document.getElementById(\'carForm\').submit();">';
+        echo '<option value="">-</option>';
     while ($option = mysqli_fetch_assoc($query)) {
         $selected = (isset($_POST['car_brand']) && $_POST['car_brand'] == $option['id']) ? ' selected' : '';
         echo '<option value="'.$option['id'].'"'.$selected.'>'.$option['nazwa_marki'].'</option>';
     }
     echo '</select><br>';
 	
-	echo 'Marka:';
+	echo 'Model:';
     if (isset($_POST['car_brand']) && !empty($_POST['car_brand'])) {
         $selected_brand_id = $_POST['car_brand'];
         $query = mysqli_query($connection, "SELECT * FROM modele WHERE id_marki = '$selected_brand_id' ORDER BY id ASC");
