@@ -37,30 +37,33 @@
 </div>
 <?php
 require('connect.php');
-$query="select  car_id,car_name , car_model , car_year , car_run , car_engine , car_gear  , 
-car_horsepower  , car_color  , car_img , car_date,car_price  FROM cars order by car_year ;";
+$query="SELECT ogloszenia.id, marki.nazwa_marki, modele.nazwa_modelu, ogloszenia.moc, ogloszenia.rocznik, ogloszenia.przebieg, ogloszenia.pojemnosc_silnika,
+			   rodzaje_paliwa.nazwa_paliwa, rodzaje_skrzyni_biegow.nazwa_typu, kolory.nazwa_koloru, ogloszenia.cena, 
+			   ogloszenia.data, ogloszenia.zdjecie FROM ogloszenia JOIN marki ON ogloszenia.id_marki=marki.id 
+			   JOIN modele ON ogloszenia.id_modele=modele.id JOIN rodzaje_paliwa ON ogloszenia.id_rodzaje_paliwa=rodzaje_paliwa.id 
+			   JOIN rodzaje_skrzyni_biegow ON ogloszenia.id_rodzaje_skrzyni_biegow=rodzaje_skrzyni_biegow.id JOIN kolory ON ogloszenia.id_kolory=kolory.id;";
 $result=@mysqli_query($connection,$query);
 if($result){
 		while($row = mysqli_fetch_assoc($result)){
 	echo"<div id = 'show'>
-				<img src='{$row['car_img']}' width='250px' height='auto' />
+				<img src='{$row['zdjecie']}' width='250px' height='auto' />
 			<div id = 'wyswietl'><div>
 			<h1>
-			{$row['car_name']}
-			{$row['car_model']} 
-			{$row['car_horsepower']}HP
+			{$row['nazwa_marki']}
+			{$row['nazwa_modelu']} 
+			{$row['moc']}HP
 			</h1>
-			{$row['car_year']}.r
-			{$row['car_run']} km
-			{$row['car_engine']}cm³
-			{$row['car_gear']} 
-			{$row['car_color']}  
-			{$row['car_date']}</div>
-			<form action='edit.php?id={$row['car_id']}' method='post'>
-			<input type='hidden' name='car_id' value='{$row['car_id']}'>
-			<input type='submit' name='' value='Edytuj'>
+			{$row['rocznik']}.r
+			{$row['przebieg']} km
+			{$row['pojemnosc_silnika']}cm³ 
+			{$row['nazwa_paliwa']}<br>
+			{$row['nazwa_typu']} 
+			{$row['nazwa_koloru']}  
+			{$row['data']}</div>
+			<form action='edit.php?id={$row['id']}' method='post'>
+			<input type='hidden' name='car_id' value='{$row['id']}'>
 			</form>
-			<div style = 'color:red'><h2>Cena: {$row['car_price']} zł</h2></div>
+			<div style = 'color:red'><h2>Cena: {$row['cena']} zł</h2></div>
 			</div>
 		</div>";
 	}

@@ -76,10 +76,11 @@ if( isset($_POST['user_email']) && isset($_POST['user_pass']) )
 			}
 			$result = 0;
 		}
-
+		exit();
 	}
 
 }
+
 ?>
 <div id="footer">
 Wszelkie prawa zastrzeżone - &copy; 2022

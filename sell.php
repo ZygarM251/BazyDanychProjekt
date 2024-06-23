@@ -68,10 +68,16 @@
             </a>
 			</div>
 </div>
-<div id="formularz">
-    <form action="" method="post" id="carForm">
-        Marka:
-        <?php
+<?php
+echo '<div id="formularz">';
+    echo '<form action="" method="post" id="carForm">';
+        echo 'Marka:';
+        
+        session_start();
+
+        if(isset($_SESSION['imie'])){
+        
+            
         require('connect.php');
         $query = mysqli_query($connection, "SELECT * FROM marki ORDER BY id ASC");
 
@@ -108,14 +114,14 @@
         echo '<option value="">Wybierz markę najpierw</option>';
         echo '</select>';
     }
-    ?>
-    <br>
-	Przebieg: <input type="number" name="car_run"><br>
-    Rocznik: <input type="number" name="car_year"><br>
-    Pojemność(cm³): <input type="number" name="car_engine"><br>
-	Moc: <input type="number" name="car_horsepower"><br>
-    Skrzynia Biegów: 
-	<?php
+    
+    echo ' <br>';
+	echo 'Przebieg: <input type="number" name="car_run"><br>';
+    echo 'Rocznik: <input type="number" name="car_year"><br>';
+    echo 'Pojemność(cm³): <input type="number" name="car_engine"><br>';
+	echo 'Moc: <input type="number" name="car_horsepower"><br>';
+    echo 'Skrzynia Biegów: ';
+	
     $query_gear = mysqli_query($connection, "SELECT * FROM rodzaje_skrzyni_biegow ORDER BY id ASC");
 
     if (!$query_gear) {
@@ -128,9 +134,9 @@
         echo '<option value="'.$option_gear['id'].'">'.$option_gear['nazwa_typu'].'</option>';
     }
     echo '</select>';
-    ?><br>
-	Rodzaj paliwa:
-    <?php
+    echo '<br>';
+    echo 'Rodzaj Paliwa:';
+    
     $query_fuel = mysqli_query($connection, "SELECT * FROM rodzaje_paliwa ORDER BY id ASC");
 
     if (!$query_fuel) {
@@ -143,90 +149,77 @@
         echo '<option value="'.$option_fuel['id'].'">'.$option_fuel['nazwa_paliwa'].'</option>';
     }
     echo '</select>';
-    ?><br>
-    Kolor: <input type="text" name="car_color"><br>
-    Zdjęcie: <input type="text" name="car_img"><br>
-    Cena: <input type="number" name="car_price"><br><br>
-    <input type="submit" name="submit_car" value="Dodaj">
-</form>
-</div>
-<?php
-session_start();
-
-if(isset($_SESSION['imie'])){
-
-	$login=$_SESSION['imie'];
-
-    require('connect.php');
- if(isset($_POST['car_name']))
- {
-     $a = $_POST['car_name'];
-     $a = htmlentities($a);
+    echo '<br>';
+    echo 'Kolor:'; 
     
-    if(isset($_POST['car_model']))
-    {
-     $b = $_POST['car_model'];
-     $b = htmlentities($b);
-        
-       if(isset($_POST['car_year']))
-       {
-         $c = $_POST['car_year'];
-         $c = htmlentities($c);
-           
-		   if(isset($_POST['car_run']))
-		   {
-			 $d = $_POST['car_run'];
-			 $d = htmlentities($d);
+    $query_fuel = mysqli_query($connection, "SELECT * FROM kolory ORDER BY id ASC");
 
-			   if(isset($_POST['car_engine']))
-				{
-			   	 $e = $_POST['car_engine'];
-			   	 $e = htmlentities($e);
-
-					if(isset($_POST['car_gear']))
-					{
-					 $f = $_POST['car_gear'];
-					 $f = htmlentities($f);
-
-						if(isset($_POST['car_horsepower']))
-						{
-						 $g = $_POST['car_horsepower'];
-						 $g = htmlentities($g);
-
-						 	if(isset($_POST['car_color']))
-						 	{
-						  	 $h = $_POST['car_color'];
-						  	 $h = htmlentities($h);
-
-							   	if(isset($_POST['car_price']))
-							   	{
-								 $i = $_POST['car_price'];
-								 $i = htmlentities($i);
-
-           	 						if(isset($_POST['car_img']))
-              						{
-                			 	 	  $j = $_POST['car_img'];
-                			 		  $j = htmlentities($j);
-
-									   	$q = "insert into cars values('','{$a}','{$b}','{$c}','{$d}','{$e}','{$f}','{$g}','{$h}','{$j}',NOW(),'{$i}','{$_SESSION['user_id']}' );"; 
-									   	$r = mysqli_query($connection,$q); 
-										if($r)
-										{
-											header("location:index.php?status=ok");
-									  	}
-										else
-										{
-											header("location:index.php?status=error");  
-										}
-									}
-								}	 
-							}		
-						}
-					}
-            	}
-            }
-        }
+    if (!$query_fuel) {
+        die("Query failed: " . mysqli_error($connection));
     }
+
+    echo '<select name="car_color">';
+    echo '<option value="">-</option>';
+    while ($option_fuel = mysqli_fetch_assoc($query_fuel)) {
+    echo '<option value="'.$option_fuel['id'].'">'.$option_fuel['nazwa_koloru'].'</option>';
+    }
+    echo '</select>';
+    echo '<br>';
+    echo'Zdjęcie: <input type="text" name="car_img"><br>';
+    echo'Cena: <input type="number" name="car_price"><br><br>';
+    echo'<input type="submit" name="submit_car" value="Dodaj">';
+    echo'</form>';
+    echo '</div>';
+
+
+
+
+if (isset($_POST['car_brand']) && isset($_POST['car_model']) && isset($_POST['car_year'])&& 
+isset($_POST['car_run']) && isset($_POST['car_engine']) && isset($_POST['car_gear']) && isset($_POST['car_horsepower'])&& 
+isset($_POST['car_color']) && isset($_POST['car_price']) && isset($_POST['car_img']) && isset($_POST['car_fuel'] ))
+{
+    $cMarka = $_POST['car_brand'];
+    $cMarka = htmlentities($cMarka);
+
+    $cModel = $_POST['car_model'];
+    $cModel = htmlentities($cModel);
+
+    $cRok = $_POST['car_year'];
+    $cRok = htmlentities($cRok);
+
+    $cPrzebieg = $_POST['car_run'];
+    $cPrzebieg = htmlentities($cPrzebieg);
+
+    $cPojemnosc = $_POST['car_engine'];
+    $cPojemnosc = htmlentities($cPojemnosc);
+
+    $cSkrzynia = $_POST['car_gear'];
+    $cSkrzynia = htmlentities($cSkrzynia);
+
+    $cMoc = $_POST['car_horsepower'];
+    $cMoc = htmlentities($cMoc);
+
+    $cKolor = $_POST['car_color'];
+    $cKolor = htmlentities($cKolor);
+
+    $cCena = $_POST['car_price'];
+    $cCena = htmlentities($cCena);
+
+    $cZdjecie = $_POST['car_img'];
+    $cZdjecie = htmlentities($cZdjecie);
+
+    $cPaliwo = $_POST['car_fuel'];
+    $cPaliwo = htmlentities($cPaliwo);
+
+    $czyAktywne = 1;
+    $waznoscOgloszenia = 30;
+    $login=$_SESSION['imie'];
+    $data=date('Y-m-d H:i:s');
+
+    $q = "insert into ogloszenia values('','{$login}','{$data}','{$cMarka}','{$cModel}','{$cPrzebieg}','{$cRok}','{$cPojemnosc}','{$cMoc}','{$cSkrzynia}','{$cPaliwo}',
+    '{$cKolor}','{$czyAktywne}','{$waznoscOgloszenia}','{$cZdjecie}','{$cCena}' );"; 
+	$r = mysqli_query($connection,$q); 
+
 }
 }
 else
