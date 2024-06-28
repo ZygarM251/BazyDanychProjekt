@@ -20,7 +20,14 @@
 					<li><a href="rej.php">Rejestracja</a></li>
 					<li><a href="login.php">Zaloguj</a></li>
 					<form action="logout.php" method="post">
-					<input type="submit" name="" value="Wyloguj">
+					<?php
+                session_start();
+                if (isset($_SESSION['imie'])) {
+                    echo '<form action="logout.php" method="post">
+                            <input type="submit" value="Wyloguj">
+                          </form>';
+                }
+                ?>
 					</form>
 				</ul>
 			</div>
@@ -46,39 +53,44 @@
 	</div>
 	<?php
 require('connect.php');
-if( isset($_POST['user_email']) && isset($_POST['user_pass']) )
-{
-	$email = $_POST['user_email'];
-	$pass = $_POST['user_pass'];
-	$query="SELECT osoby.imie, uzytkownicy.haslo from osoby join uzytkownicy on osoby.id=uzytkownicy.id WHERE osoby.mail like '{$email}'";
-	
-	if(empty($pass) && empty($email))
-	{
-		echo "Nie podano hasło";
-	}
-	else
-	{
-		$result = mysqli_query($connection, $query); 
-		session_start();
-		$zaszyfrowanieHaslo=hash('sha256',$pass);
+if (isset($_POST['user_email']) && isset($_POST['user_pass'])) {
+    $email = $_POST['user_email'];
+    $pass = $_POST['user_pass'];
 
-		if($result)
-		{
-			$row = mysqli_fetch_assoc($result);
-			if($row['haslo']==$zaszyfrowanieHaslo)
-			{
-				$_SESSION['imie'] = $row['imie'];
-				echo "Zalogowano, Witamy {$_SESSION['imie']}";
-			}
-			else
-			{
-				echo "Podano Błędne hasło lub login";
-			}
-			$result = 0;
-		}
-		exit();
-	}
+    if (empty($email)) {
+        echo "Nie podano adresu e-mail";
+    } elseif (empty($pass)) {
+        echo "Nie podano hasła";
+    } else {
+        $query = "SELECT osoby.imie, uzytkownicy.haslo 
+                  FROM osoby 
+                  JOIN uzytkownicy ON osoby.id = uzytkownicy.id 
+                  WHERE osoby.mail = ?";
 
+        // Zapytanie sprawdzenie
+        if ($stmt = mysqli_prepare($connection, $query)) {
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_result($stmt, $imie, $haslo);
+            mysqli_stmt_fetch($stmt);
+            mysqli_stmt_close($stmt);
+
+            // Szyfrowanie hasła i weryfikowanie hasła
+            $zaszyfrowaneHaslo = hash('sha256', $pass);
+
+            if ($haslo === $zaszyfrowaneHaslo) {
+                
+                $_SESSION['imie'] = $imie;
+                echo "Zalogowano, Witamy {$_SESSION['imie']}";
+            } else {
+                echo "Podano błędne hasło lub login";
+            }
+        } else {
+            echo "Błąd w zapytaniu SQL";
+        }
+    }
+} else {
+    echo "Żaden użytkownik nie jest zalogowany";
 }
 
 ?>

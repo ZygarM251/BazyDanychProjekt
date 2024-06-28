@@ -18,6 +18,14 @@
 					<li><a href="sell.php">Sprzedaj</a></li>
 					<li><a href="rej.php">Rejestracja</a></li>
 					<li><a href="login.php">Zaloguj</a></li>
+					<?php
+                session_start();
+                if (isset($_SESSION['imie'])) {
+                    echo '<form action="logout.php" method="post">
+                            <input type="submit" value="Wyloguj">
+                          </form>';
+                }
+                ?>
 				</ul>
 			</div>
 		</div>

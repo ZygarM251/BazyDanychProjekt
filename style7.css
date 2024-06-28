@@ -96,7 +96,7 @@ a{
 }
 #show
 {
-width: 80%;
+width: 90%;
 height: auto;
 border: solid 2px black;
 margin-left: auto;
@@ -112,7 +112,8 @@ text-align:center;
 display: flex;
 justify-content: space-between;
 width: 100%;
-margin-right: 59px
+margin-right: 10px;
+margin-left: 10px;
 }
 #footer
 {
